@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Rock Paper Scissors 1.0</title>
+
+<script type="text/javascript">
+window.onload = runScript;
+
+var i = 0;
+
+
+
+function runScript()
+{
+	getTitle();
+	getOS();
+	getFileName();
+	clock();
+	RPSbot();
+	
+}
+function getTitle()
+{
+	var title = document.title;
+	document.getElementById('title').innerHTML = title;
+}
+function clock()
+{
+	var date = new Date();
+	var hours = date.getHours();
+	var ampm;
+	if(hours > 12)
+	{	
+		hours -= 12;
+		ampm = "pm";
+	}
+	else
+	{
+		ampm = "am";
+	}
+	var minutes = date.getMinutes();
+	if(minutes < 10)
+		minutes = "0" + minutes;
+	var seconds = date.getSeconds();
+	if(seconds < 10)
+		seconds = "0" + seconds;
+	var day = new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+	var time = hours + ":" + minutes + ":" + seconds + ampm + " on " + day[date.getDay()];
+	document.getElementById('time').innerHTML = time;
+	setTimeout('clock()',1000);
+}
+function bgEffect()
+{
+i++;
+document.body.style.background = "rgb(" + i + "," + i + "," + i + ")";
+var bgTimeout = setTimeout('bgEffect()',1000 / 50);
+	if(i == 200)
+	{
+		clearTimeout(bgTimeout);
+		bgReset();
+	}
+}
+function bgReset()
+{
+i--;
+document.body.style.background = "rgb(" + i + "," + i + "," + i + ")";
+var bgReverse = setTimeout('bgReset()',1000/50);
+	if(i == 0)
+	{
+		clearTimeout(bgReverse);
+		bgEffect();
+	}
+}
+function getOS()
+{
+	var os = navigator.platform;
+	document.getElementById('os').innerHTML = os;
+}
+function getFileName()
+{
+	var url = window.location.pathname;
+	var filename = url.substring(url.lastIndexOf('/')+1);
+	document.getElementById('fn').innerHTML = filename;
+	
+}
+function RPSbot()
+{
+	var rps = new Array("Rock!","Paper!","Scissors!");
+	var randomNumber; 
+	document.getElementById('rock').onclick = function()
+	{
+		document.getElementById('player').innerHTML = rps[0];
+		randomNumber = Math.floor(Math.random() * 3);
+		document.getElementById('rpsbot').innerHTML = rps[randomNumber];
+		var rpsMove = rps[randomNumber];
+		switch (rpsMove)
+		{
+		case "Rock!":
+			alert('Tie!');
+			break;
+		case "Paper!":
+			alert('You lose.');
+			break;
+		case "Scissors!":
+			alert('You Win!');
+			break;
+		}
+	}
+	document.getElementById('paper').onclick = function()
+	{
+		document.getElementById('player').innerHTML = rps[1];
+		randomNumber = Math.floor(Math.random() * 3);
+		document.getElementById('rpsbot').innerHTML = rps[randomNumber];
+		var rpsMove = rps[randomNumber];
+		switch (rpsMove)
+		{
+		case "Rock!":
+			alert('You Win!');
+			break;
+		case "Paper!":
+			alert('Tie.');
+			break;
+		case "Scissors!":
+			alert('You lose!');
+			break;
+		}
+	}
+	document.getElementById('scissors').onclick = function()
+	{
+		document.getElementById('player').innerHTML = rps[2];
+		randomNumber = Math.floor(Math.random() * 3);
+		document.getElementById('rpsbot').innerHTML = rps[randomNumber];
+		var rpsMove = rps[randomNumber];
+		switch (rpsMove)
+		{
+		case "Rock!":
+			alert('You lose.');
+			break;
+		case "Paper!":
+			alert('You Win!');
+			break;
+		case "Scissors!":
+			alert('Tie.');
+			break;
+		}
+	}
+}
+
+</script>
+
+<style>
+body{font-family:arial;color:#555;font-size:10pt;}
+h1{text-transform:uppercase;font-weight:normal;padding:0;}
+
+#container{width:500px;background:#eee;margin:0 auto; padding:1px 20px 20px 20px;border-radius:5px;}
+</style>
+
+</head>
+
+<body>
+
+<div id="container">
+
+<h1 id="title"></h1>
+
+<article id="message" align="left">
+
+<p>Operating System: <span id="os"></span></p>
+<p>File Name: <span id="fn"></span></p>
+<p>Time: <span id="time"></span></p>
+<p>RPSbot: <span id="rpsbot"></span></p>
+<p>Player: <span id="player"></span></p>
+
+<button id="rock">Rock</button><button id="paper">Paper</button><button id="scissors">Scissors</button>
+
+</article>
+
+</div>
+
+</body>
+</html>

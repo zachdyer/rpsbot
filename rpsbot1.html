@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>RPSbot 1.0</title>
+
+<script type="text/javascript">
+window.onload = runScript;
+
+var i = 0;
+var playerScore = 0;
+var botScore = 0;
+var green = 75;
+
+
+function runScript()
+{
+	logo();
+	getTitle();
+	clock();
+	RPSbot();
+}
+
+function logo()
+{
+	green++;
+	var canvas = document.getElementById('logo');
+	var ctx = canvas.getContext('2d');
+	ctx.fillStyle = 'rgb(0,' + green + ',0)';
+	ctx.beginPath();
+	ctx.arc(10,10,10,0,Math.PI * 2,true);
+	ctx.closePath();
+	ctx.fill();
+	var logoTime = setTimeout('logo()',1000/60);
+	if(green == 255)
+	{
+		clearTimeout(logoTime);
+		logoReverse();
+	}
+}
+function logoReverse()
+{
+	green--;
+	var canvas = document.getElementById('logo');
+	var ctx = canvas.getContext('2d');
+	ctx.fillStyle = 'rgb(0,' + green + ',0)';
+	ctx.beginPath();
+	ctx.arc(10,10,10,0,Math.PI * 2,true);
+	ctx.closePath();
+	ctx.fill();
+	var logoTimeReverse = setTimeout('logoReverse()',1000/60);
+	if(green == 75)
+	{	
+		clearTimeout(logoTimeReverse);
+		logo();
+	}	
+}
+
+function getTitle()
+{
+	var title = document.title;
+	document.getElementById('title').innerHTML = title;
+}
+function clock()
+{
+	var date = new Date();
+	var hours = date.getHours();
+	var ampm;
+	if(hours > 12)
+	{	
+		hours -= 12;
+		ampm = "pm";
+	}
+	else
+	{
+		ampm = "am";
+	}
+	var minutes = date.getMinutes();
+	if(minutes < 10)
+		minutes = "0" + minutes;
+	var seconds = date.getSeconds();
+	if(seconds < 10)
+		seconds = "0" + seconds;
+	var day = new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+	var time = hours + ":" + minutes + ":" + seconds + ampm + " on " + day[date.getDay()];
+	document.getElementById('time').innerHTML = time;
+	setTimeout('clock()',1000);
+}
+
+function RPSbot()
+{
+	var rps = new Array("Rock","Paper","Scissors");
+	var randomNumber; 
+	document.getElementById('botScore').innerHTML = botScore + "/21";
+	document.getElementById('playerScore').innerHTML = playerScore + "/21";
+	document.getElementById('rock').onclick = function()
+	{
+		document.getElementById('player').innerHTML = rps[0];
+		randomNumber = Math.floor(Math.random() * 3);
+		document.getElementById('rpsbot').innerHTML = rps[randomNumber];
+		var rpsMove = rps[randomNumber];
+		switch (rpsMove)
+		{
+		case "Rock":
+			document.getElementById('rpsbot').innerHTML += " Tie!";
+			document.getElementById('player').innerHTML += " Tie!";
+			break;
+		case "Paper":
+			document.getElementById('rpsbot').innerHTML += " Wins!";
+			botScore += 1;
+			document.getElementById('botScore').innerHTML = botScore + "/21";
+			if(botScore == 21)
+			{
+			alert('RPSbot wins the game.');
+			}
+			break;
+		case "Scissors":
+			document.getElementById('player').innerHTML += " Wins!";
+			playerScore += 1;
+			document.getElementById('playerScore').innerHTML = playerScore + "/21";
+			if(playerScore == 21)
+			{
+			alert('Congratulations! You beat RPSbot 3.0.');
+			playerScore = 0;
+			botScore = 0;
+			document.getElementById('playerScore').innerHTML = playerScore + "/21";
+			document.getElementById('botScore').innerHTML = botScore + "/21";
+			}
+			break;
+		}
+	}
+	document.getElementById('paper').onclick = function()
+	{
+		document.getElementById('player').innerHTML = rps[1];
+		randomNumber = Math.floor(Math.random() * 3);
+		document.getElementById('rpsbot').innerHTML = rps[randomNumber];
+		var rpsMove = rps[randomNumber];
+		switch (rpsMove)
+		{
+		case "Rock":
+			document.getElementById('player').innerHTML += " Wins!";
+			playerScore += 1;
+			document.getElementById('playerScore').innerHTML = playerScore + "/21";
+			if(playerScore == 21)
+			{
+			alert('Congratulations! You beat RPSbot 3.0.');
+			playerScore = 0;
+			}
+			break;
+		case "Paper":
+			document.getElementById('rpsbot').innerHTML += " Tie!";
+			document.getElementById('player').innerHTML += " Tie!";
+			break;
+		case "Scissors":
+			document.getElementById('rpsbot').innerHTML += " Wins!";
+			botScore += 1;
+			document.getElementById('botScore').innerHTML = botScore + "/21";
+			if(botScore == 21)
+			{
+			alert('RPSbot wins the game.');
+			}
+			break;
+		}
+	}
+	document.getElementById('scissors').onclick = function()
+	{
+		document.getElementById('player').innerHTML = rps[2];
+		randomNumber = Math.floor(Math.random() * 3);
+		document.getElementById('rpsbot').innerHTML = rps[randomNumber];
+		var rpsMove = rps[randomNumber];
+		switch (rpsMove)
+		{
+		case "Rock":
+			document.getElementById('rpsbot').innerHTML += " Wins";
+			botScore += 1;
+			document.getElementById('botScore').innerHTML = botScore + "/21";
+			if(botScore == 21)
+			{
+			alert('RPSbot wins the game.');
+			}
+			break;
+		case "Paper":
+			document.getElementById('player').innerHTML += " Wins!";
+			playerScore += 1;
+			document.getElementById('playerScore').innerHTML = playerScore + "/21";
+			if(playerScore == 21)
+			{
+			alert('Congratulations! You beat RPSbot 3.0.');
+			playerScore = 0;
+			}
+			break;
+		case "Scissors":
+			document.getElementById('rpsbot').innerHTML += " Tie!";
+			document.getElementById('player').innerHTML += " Tie!";
+			break;
+		}
+	}
+}
+
+</script>
+
+<style>
+body{font-family:arial;color:#555;font-size:10pt;}
+h1{text-transform:uppercase;font-weight:normal;padding:0;}
+
+#container{width:500px;background:#eee;margin:0 auto; padding:1px 20px 20px 20px;border-radius:5px;}
+</style>
+
+</head>
+
+<body>
+
+<div id="container">
+
+<canvas id="logo" height="20" width="20" style="float:left;margin:23px 0 0 0;"></canvas>
+<h1 id="title" style="float:left; margin:17px 0 0 3px;"></h1>
+
+<article id="message" align="left" style="clear:left;">
+
+<p>Time: <span id="time"></span></p>
+
+<p>RPSbot: <span id="rpsbot"></span><br/>
+Score: <span id='botScore'></span></p>
+
+<p>Player: <span id="player"></span><br/>
+Score: <span id="playerScore"></span></p>
+
+<button id="rock">Rock</button><button id="paper">Paper</button><button id="scissors">Scissors</button>
+
+</article>
+
+</div>
+
+</body>
+</html>
